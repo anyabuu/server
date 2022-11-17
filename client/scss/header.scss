@@ -1,0 +1,29 @@
+header {
+  background-color: papayawhip;
+  border: 15px pink solid;
+}
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.header__logo {
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 1.1;
+}
+.header__logout {
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--main-background);
+  border-radius: 8px;
+  background: white;
+  text-align: center;
+  cursor: pointer;
+  padding: 8px 15px;
+  text-transform: uppercase;
+  border: 2px black solid;
+}
+

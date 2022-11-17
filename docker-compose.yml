@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  application:
+    container_name: twttr-backend
+    build: application/
+    environment:
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+      - cache
+  client:
+    container_name: twttr-frontend
+    build: web-client/
+    ports:
+      - '4000:4000'
+    depends_on:
+      - application
+  database:
+    container_name: twttr-postgres
+    image: postgres:12-alpine
+    volumes:
+      - ../log:/root/log:cached
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PSQL_HISTFILE=/root/log/.psql_history
+      - POSTGRES_DB=postgres
+    ports:
+      - '5556:5432'
+  grafana:
+    image: grafana/grafana:latest
+    container_name: twttr-grafana
+    restart: unless-stopped
+    user: "104"
+    ports:
+      - '3030:3000'
+  cache:
+    image: redis:6.2.5-alpine
+    container_name: twttr-cache
+    command: redis-project-base --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    expose:
+      - 6379
+    ports:
+      - '6379:6379'
+  monitoring:
+    image: prom/prometheus:latest
+    container_name: twttr-monitoring
+    ports:
+      - '9090:9090'

@@ -1,0 +1,126 @@
+.sections__wrapper {
+  background-color: pink;
+  min-height: 100vh;
+}
+
+.authorization {
+  padding-top: 50px;
+}
+
+.authorization__container {
+  background-color: palevioletred;
+  padding: 40px;
+  border: 1px solid black;
+  width: 800px;
+}
+
+.authorization__login-title {
+  padding-top: 20px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.authorization__login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.authorization__login-button {
+  width: 150px;
+  background: lightpink;
+}
+
+.authorization__error-message {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 400;
+  text-align: center;
+  border: 1px solid black;
+  background: darkred;
+  color: white;
+  padding: 8px;
+}
+
+.project {
+  padding: 40px 0 40px 0;
+}
+
+.project__title {
+  padding-bottom: 20px;
+}
+
+.project__task-form {
+  display: flex;
+  gap: 12px;
+}
+
+.project__task-button {
+  background-color: cadetblue;
+}
+
+.project__project-list {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-weight: 400;
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+
+
+.registration {
+  padding-top: 50px;
+}
+
+.registration__container {
+  background-color: cadetblue;
+  padding: 40px;
+  border: 1px solid black;
+  width: 800px;
+}
+
+.registration__login-title {
+  padding-top: 20px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.registration__login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.registration__login-button {
+  width: 150px;
+  background: teal;
+}
+
+.registration__error-message {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 400;
+  text-align: center;
+  border: 1px solid black;
+  background: darkred;
+  color: white;
+  padding: 8px;
+}
+
+.registration__input-message {
+  padding-top: 6px;
+  font-size: 1.2rem;
+  line-height: 1.1;
+  font-weight: 400;
+  color: brown;
+}
+

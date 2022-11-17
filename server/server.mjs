@@ -12,7 +12,7 @@ const server = fastify({
 });
 const SECRET_KEY = 'VEry strOng SecRet Key';
 const client = new Client({
-  database: 'todo',
+  database: 'postgres',
   user: 'postgres',
   password: 'postgres',
   port: 5556,
@@ -164,7 +164,7 @@ server.register((instance, opts, done) => {
 
       await client.query(
         'INSERT INTO tasks(name, deadline, userid) VALUES ($1, $2, $3);',
-        [name, deadline, payload.id]
+        [name, deadline, id]
       );
 
       reply.status(201).send({ info: 'created' });

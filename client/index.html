@@ -5,45 +5,99 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 60px;
-        }
-
-        ul,
-        li {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        ul {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-    </style>
+    <title>Project-base</title>
 </head>
 <body>
-<button class="logout">Logout</button>
-<form action="" class="login">
-    <input type="email" name="email">
-    <input type="password" name="password">
-    <button>Login</button>
-</form>
 
-<form action="" class="task-form">
-    <input type="text" name="name">
-    <input type="date" name="deadline">
-    <button>Create project</button>
-</form>
+    <header class="header">
+        <div class="header__container container">
+            <h1 class="header__logo">
+                LogoBase
+            </h1>
+            <button class="header__logout-button button disable">
+                Logout
+            </button>
+            <button class="header__registration-button button">
+                Registration
+            </button>
+            <button class="header__login-button button disable">
+                Login
+            </button>
+        </div>
+    </header>
 
-<ul></ul>
+    <div class="sections__wrapper">
 
-<script src="index.js"></script>
+        <section class="authorization">
+            <div class="authorization__container container">
+                <h2 class="authorization__login-title title">
+                    Authorization
+                </h2>
+                <form action="" class="authorization__login-form">
+                    <input class="authorization__login-input input" type="email" name="email" placeholder="Enter your email">
+                    <input class="authorization__login-input input" type="password" name="password" placeholder="Enter your password">
+                    <button class="authorization__login-button button">
+                        Login
+                    </button>
+                </form>
+
+                <p class="authorization__error-message disable">
+
+                </p>
+
+
+            </div>
+        </section>
+
+
+        <section class="registration disable">
+            <div class="registration__container container">
+                <h2 class="registration__login-title title">
+                    Registration
+                </h2>
+                <form action="" class="registration__login-form">
+                    <label class="registration__login-label">
+                        <input class="registration__login-input input" type="email" name="email" placeholder="Enter your email">
+                        <div class="registration__input-message"></div>
+                    </label>
+                    <label class="registration__login-label">
+                        <input class="registration__login-input input" type="password" name="password" placeholder="Create your password">
+                        <div class="registration__input-message"></div>
+                    </label>
+                    <button class="registration__login-button button">
+                        Registration
+                    </button>
+                </form>
+
+                <p class="registration__error-message disable">
+
+                </p>
+
+
+            </div>
+        </section>
+
+
+        <section class="project disable">
+            <div class="project__container container">
+                <h2 class="project__title title">
+                    Project maker
+                </h2>
+                <form action="" class="project__task-form">
+                    <input class="project__task-input project__task-input-name input" type="text" name="name" placeholder="Enter task name">
+                    <input class="project__task-input project__task-input-date input" type="date" name="deadline">
+                    <button class="project__task-button button">
+                        Create project
+                    </button>
+                    <div class="project__task-error-message"></div>
+                </form>
+                <ol class="project__project-list"></ol>
+            </div>
+        </section>
+
+    </div>
+
+<!--    <script src="index.js"></script>-->
 </body>
 </html>
+
