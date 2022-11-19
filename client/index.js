@@ -1,37 +1,32 @@
 import './scss/style.scss';
 
+window.onload = preload();
+
+function preload() {
+  document.body.classList.add('loaded-hiding');
+   return window.setTimeout(function () {
+    document.body.classList.add('loaded');
+    document.body.classList.remove('loaded-hiding');
+  }, 700);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const HOST = "http://localhost:4000";
   const storage = sessionStorage.userinfo
     ? JSON.parse(sessionStorage.userinfo)
     : {};
   const list = document.querySelector(".project__project-list");
-
   const logoutButton = document.querySelector(".header__logout-button");
   const loginButton = document.querySelector(".header__login-button");
   const registrationButton = document.querySelector(".header__registration-button");
-
-  const authorization = document.querySelector(".authorization");
-  const errorLogin = document.querySelector(".authorization__error-message");
-
   const registration = document.querySelector(".registration");
-
-  const loginForm = document.querySelector(".authorization__login-form");
-  const registrationForm = document.querySelector('.registration__login-form');
-  const registrationFormElements = document.querySelectorAll('.registration__login-input');
-  const errorRegistrationMessage = document.querySelector('.registration__error-message');
-
-
+  const authorization = document.querySelector(".authorization");
   const projectArea = document.querySelector(".project") ;
   const projectForm = document.querySelector(".project__task-form");
-
-
-  function classToggle(neededButton, buttonToHide, neededForm, formToHide) {
-    neededButton.classList.toggle('disable');
-    buttonToHide.classList.toggle('disable')
-    neededForm.classList.toggle('disable');
-    formToHide.classList.toggle('disable');
-  }
+  const loginForm = document.querySelector(".authorization__login-form");
+  const registrationForm = document.querySelector('.registration__login-form');
+  const errorRegistrationMessage = document.querySelector('.registration__error-message');
+  const errorLogin = document.querySelector(".authorization__error-message");
 
   logoutButton.addEventListener("click", () => {
     list.innerHTML = "";
@@ -51,79 +46,107 @@ document.addEventListener("DOMContentLoaded", async () => {
   registration.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-
-    registrationFormElements.forEach(function(item) {
-      if (!item.value) {
-        item.closest('label').querySelector('.registration__input-message').innerText = `*This field is required`
-      } else {
-        item.closest('label').querySelector('.registration__input-message').innerText = ``
-      }
-
-    })
+    if (!registrationForm.email.value || !registrationForm.password.value) {
+      errorRegistrationMessage.classList.remove('disable');
+      return errorRegistrationMessage.innerText = "*All fields are required";
+    }
 
     const body = new FormData(registrationForm);
 
-    const response = await fetch(`${HOST}/register`, {
-      method: "POST",
-      body,
-    })
+    try {
+
+      const response = await fetch(`${HOST}/register`, {
+        method: "POST",
+        body,
+      })
+
+      if (response.status !== 200){
+
+        let registerError = new Error("This user is already exists");
+        errorRegistrationMessage.classList.remove('disable');
+        errorRegistrationMessage.innerText = registerError.message;
+
+        throw registerError;
+
+      } else {
+
+        const result = await fetch(`${HOST}/login`, {
+          method: "POST",
+          body,
+        });
+
+        let answer = await result.json();
+        const token  = answer.token;
+        const email = answer.email
+
+        storage.token = token;
+        sessionStorage.userinfo = JSON.stringify(storage);
+
+        const helloTitle = document.querySelector('.project__hello-title');
+        helloTitle.innerHTML = `Hello, ${email}!`;
+
+        classToggle(logoutButton, loginButton, projectArea, registration);
+        registrationForm.reset();
+        errorRegistrationMessage.classList.add('disable');
+        errorRegistrationMessage.innerText = ``;
+      }
+    }
+    catch (error){
+      console.log(error)
+    }
+  });
 
 
-    if (response.status !== 200){
-      errorRegistrationMessage.classList.toggle('disable');
-      errorRegistrationMessage.innerText = '*This user is already exists!'
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-    } else {
+    const body = new FormData(loginForm);
+
+    if (!loginForm.email.value || !loginForm.password.value) {
+
+      errorLogin.classList.remove('disable');
+      return errorLogin.innerText = "*All fields are required";
+    }
+
+    try {
 
       const result = await fetch(`${HOST}/login`, {
         method: "POST",
         body,
       });
 
-      const { token } = await result.json();
-      storage.token = token;
-      sessionStorage.userinfo = JSON.stringify(storage);
-
-      classToggle(logoutButton, loginButton, projectArea, registration);
-      registrationForm.reset();
-    }
-
-  });
-
-
-  loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const body = new FormData(loginForm);
-
-    const result = await fetch(`${HOST}/login`, {
-      method: "POST",
-      body,
-    });
-
-    const { token } = await result.json();
-
-    if (token === undefined) {
-      console.log('try again')
-      errorLogin.classList.toggle('disable')
-      errorLogin.innerText = "*This user does not exist! Try again or make a registration."
-
-    } else {
-      loginForm.reset()
-      projectArea.classList.remove('disable');
-      authorization.classList.add('disable');
-      logoutButton.classList.toggle('disable');
-      registrationButton.classList.add('disable');
+      const answer = await result.json();
+      const token  = answer.token;
+      const email = answer.email
 
       storage.token = token;
       sessionStorage.userinfo = JSON.stringify(storage);
 
-      await renderTasks();
+      if (token) {
 
-      console.log('success')
+        loginForm.reset();
+        errorLogin.innerText = ``;
+        errorLogin.classList.add('disable');
+        classToggle(registrationButton, logoutButton, projectArea, authorization);
+
+        const helloTitle = document.querySelector('.project__hello-title');
+        helloTitle.innerHTML = `Hello, ${email}!`;
+
+        await renderTasks();
+
+      } else {
+
+        let loginError = new Error("This user does not exist! Try again or make a registration")
+        errorLogin.classList.remove('disable');
+        errorLogin.innerText = loginError.message;
+
+        throw loginError
+      }
+
+    } catch (error)  {
+      console.log(error)
     }
-
   });
-
 
 
   projectForm.addEventListener('submit', async (event) => {
@@ -133,8 +156,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const projectDate = document.querySelector('.project__task-input-date');
 
     if (!projectName.value || ! projectDate.value){
-      document.querySelector(".project__task-error-message").innerText = `*All fields is required`
+      document.querySelector(".project__task-error-message").innerText = `*All fields are required`
     } else {
+
+      preload();
+
       document.querySelector(".project__task-error-message").innerText = ``;
 
       const body = new FormData(projectForm);
@@ -147,13 +173,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         },
       });
 
-
       projectForm.reset();
       list.innerHTML= ``;
 
       await renderTasks();
     }
-
   });
 
 
@@ -167,16 +191,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     tasks.forEach(({ name, deadline }) => {
       const listItem = document.createElement("li");
-
       const date = new Date(Date.parse(deadline))
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDay();
-      const yearDate = [year, month.toString().padStart(2,'0'), day.toString().padStart(2,'0')].join('-');
+      const yearDate = [day.toString().padStart(2,'0'), month.toString().padStart(2,'0'), year].join('-');
 
-      listItem.innerText = `${name} ---- ${yearDate}`;
+      listItem.innerText = `${name} - - deadline - - ${yearDate}`;
+
       list.append(listItem);
     });
   }
 
+  function classToggle(neededButton, buttonToHide, neededForm, formToHide) {
+    neededButton.classList.toggle('disable');
+    buttonToHide.classList.toggle('disable')
+    neededForm.classList.toggle('disable');
+    formToHide.classList.toggle('disable');
+  }
 });

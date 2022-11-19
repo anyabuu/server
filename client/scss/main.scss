@@ -12,6 +12,10 @@
   padding: 40px;
   border: 1px solid black;
   width: 800px;
+
+  @include media-tablet {
+    width: 80%;
+  }
 }
 
 .authorization__login-title {
@@ -34,9 +38,6 @@
 
 .authorization__error-message {
   margin-top: 20px;
-  font-size: 1.5rem;
-  line-height: 1.1;
-  font-weight: 400;
   text-align: center;
   border: 1px solid black;
   background: darkred;
@@ -48,21 +49,36 @@
   padding: 40px 0 40px 0;
 }
 
+.project__hello-title {
+  padding-bottom: 40px;
+  font-weight: 800;
+}
+
 .project__title {
   padding-bottom: 20px;
+}
+
+.project__title-board {
+  padding-top: 30px;
 }
 
 .project__task-form {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .project__task-button {
   background-color: cadetblue;
 }
 
+.project__task-error-message {
+  padding-top: 10px;
+  color: brown;
+}
+
 .project__project-list {
-  padding-top: 40px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -71,9 +87,10 @@
   font-weight: 400;
   list-style-type: decimal;
   list-style-position: inside;
+  background-color: white;
+  border: 2px solid black;
+  padding: 35px;
 }
-
-
 
 .registration {
   padding-top: 50px;
@@ -84,6 +101,10 @@
   padding: 40px;
   border: 1px solid black;
   width: 800px;
+
+  @include media-tablet {
+    width: 80%;
+  }
 }
 
 .registration__login-title {
@@ -104,11 +125,9 @@
   background: teal;
 }
 
+
 .registration__error-message {
   margin-top: 20px;
-  font-size: 1.5rem;
-  line-height: 1.1;
-  font-weight: 400;
   text-align: center;
   border: 1px solid black;
   background: darkred;
@@ -124,3 +143,18 @@
   color: brown;
 }
 
+
+.lds-facebook{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+}
+
+.loaded-hiding {
+  opacity: 0.7;
+}
+
+.loaded .lds-facebook {
+  display: none;
+}

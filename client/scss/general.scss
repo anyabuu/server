@@ -13,6 +13,10 @@ html {
   width: 1100px;
   margin-left: auto;
   margin-right: auto;
+
+  @include media-tablet {
+    width: 90%;
+  }
 }
 
 .title {
@@ -48,4 +52,10 @@ html {
 
 .disable {
   display: none;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 400;
 }

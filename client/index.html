@@ -9,6 +9,11 @@
 </head>
 <body>
 
+
+    <div class="wrapper">
+
+    <div class="lds-facebook"><div></div><div></div><div></div></div>
+
     <header class="header">
         <div class="header__container container">
             <h1 class="header__logo">
@@ -27,7 +32,6 @@
     </header>
 
     <div class="sections__wrapper">
-
         <section class="authorization">
             <div class="authorization__container container">
                 <h2 class="authorization__login-title title">
@@ -40,11 +44,9 @@
                         Login
                     </button>
                 </form>
-
-                <p class="authorization__error-message disable">
+                <p class="authorization__error-message error-message disable">
 
                 </p>
-
 
             </div>
         </section>
@@ -69,17 +71,17 @@
                     </button>
                 </form>
 
-                <p class="registration__error-message disable">
+                <p class="registration__error-message error-message disable">
 
                 </p>
-
-
             </div>
         </section>
 
-
         <section class="project disable">
             <div class="project__container container">
+                <h2 class="project__hello-title title">
+
+                </h2>
                 <h2 class="project__title title">
                     Project maker
                 </h2>
@@ -89,15 +91,19 @@
                     <button class="project__task-button button">
                         Create project
                     </button>
-                    <div class="project__task-error-message"></div>
                 </form>
+                <div class="project__task-error-message error-message"></div>
+                <h2 class="project__title-board title">
+                    Your project board:
+                </h2>
                 <ol class="project__project-list"></ol>
             </div>
         </section>
 
     </div>
 
-<!--    <script src="index.js"></script>-->
+    </div>
+
 </body>
 </html>
 
