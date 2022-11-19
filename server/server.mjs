@@ -83,7 +83,7 @@ server.post('/login', { schema: authSchema }, async (request, reply) => {
       const token = await sign({ id: user.id, email: user.email }, SECRET_KEY, {
         expiresIn: '50m',
       });
-      return reply.send({ info: 'Successful login', token });
+      return reply.send({ info: 'Successful login', token, email });
     }
 
     return reply.status(400).send({ info: 'incorrect password' });
@@ -234,3 +234,9 @@ server
     return client.connect();
   })
   .catch((err) => console.log(err));
+
+
+
+
+
+
